@@ -2,24 +2,31 @@ import pandas as pd
 import sys
 from os import system, name
 
+# Assigning the csv file as a "dictionary" to encrypt / decrypt
 encryptionkey = pd.read_csv(r"decodekeynew.csv",
                             sep=',', names=['Character', 'Byte'], header=None, skiprows=[0])
 
+# 2-dimensional labeled data structure
 df = pd.DataFrame(data=encryptionkey)
 
+# Take the columns
 df['Character'] = df['Character'].astype(str)
 df['Byte'] = df['Byte'].astype(str)
 
+# Separate the characters of the word
 def split(message):
     return [char for char in message]
-
+  
+# Code message
 def code_message(message):
     message_split = split(message)
     coded_message = ""
-
+    
+    # Check what character substitutions will be
     for i in range(len(message_split)):
         j = message_split[i]
         try:
+            # Search in column
             coded_char = encryptionkey.loc[encryptionkey['Character'] == j, 'Byte'].iloc[0]
         except:
             print('Caractere não encontrado!')
@@ -28,10 +35,12 @@ def code_message(message):
         	coded_message = coded_message + coded_char
     return coded_message
 
+# Decode message
 def decode_message(message):
     new_word = ''
     decoded_message = []
 
+     # Search in column the hash
     for i in range(0, len(message), 2):
         j = message[i:i + 2]
         index_nb = df[df.eq(j).any(1)]
@@ -46,7 +55,7 @@ def decode_message(message):
 
     return new_word
 
-
+# Clear terminal
 def clear():
     if name == 'nt': 
         _ = system('cls') 
@@ -55,6 +64,7 @@ def clear():
         _ = system('clear') 
 
 clear()
+# Options display menu for the user
 while True:
     clear()
     option = str(input('Escolha uma das opções a seguir:\n( E ) para encriptar uma mensagem\n( D ) para decriptar uma mensagem\n( S ) para sair\nOpção: '))
