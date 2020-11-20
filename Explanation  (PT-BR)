@@ -1,0 +1,4 @@
+Linguagem utilizada Python;
+Após executar o .py no terminal/emulador no terminal o sistema separará cada caractere da mensagem;
+Transformará para binário e consultará em uma lista dentro do arquivo decodekeynew.csv o binário correspondente para embaralhamento; 
+Caso o binário correspondente não seja encontrado (como em caso de emojis) será substituído por '@@@'.
